@@ -76,7 +76,7 @@ begin
     LJObj2 := TJSONObject.ParseJSONValue( memObj2.Lines.Text ) as TJSONObject;
     LWrap  := IfThen(edtWrapper.AsString <> '', edtWrapper.AsString, '');
 
-    LJRes := LJM.MergeJAddObj(LJObj1, LJObj2, LWrap);
+    LJRes := LJM.Merge(LJObj1, LJObj2, LWrap);
 
     if LJRes <> nil then
     begin

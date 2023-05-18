@@ -17,15 +17,29 @@ type
       out AJValue: TJSONValue): Boolean; overload;
   public
     /// <summary>
-    ///   Funzione che effettua il merge tra due oggetti, dove il primo ha priorità rispetto al secondo.
-    ///  L'attributo AWrapperAttr lascia al chiamante la decisione di racchiudere l'oggetto risultante
-    ///  in un attributo con il nome indicato oppure no
+    ///   Funzione che effettua il merge tra due oggetti JSON. L'attributo AWrapperAttr lascia al chiamante
+    ///   la decisione di racchiudere o meno l'oggetto risultante dal merge in un attributo il cui nome è quello indicato
     /// </summary>
     /// <remarks>
-    ///   Ritorna sempre una nuova istanza di un oggetto TJSONObject tranne nel caso in cui i due oggetti
-    ///  per cui fare il merge non siano vuoti
+    ///   <list type="bullet">
+    ///     <item>
+    ///       Ritorna sempre una nuova istanza di un oggetto TJSONObject
+    ///       tranne nel caso in cui i due oggetti per cui fare il merge
+    ///       sono vuoti e non è stato indicato AWrapperAttr
+    ///     </item>
+    ///     <item>
+    ///       Se in entrambi gli oggetti è presente lo stesso attributo di
+    ///       tipo diverso da TJSONArray, l'attributo di AObj1 ha
+    ///       precedenza
+    ///     </item>
+    ///     <item>
+    ///       Se in entrambi gli oggetti è presente lo stesso attributo di
+    ///       tipo uguale a TJSONArray, gli elementi dell'array di AObj2
+    ///       vengono aggiunti in append all'array di AObj1
+    ///     </item>
+    ///   </list>
     /// </remarks>
-    function MergeJAddObj(const AJObj1, AJObj2: TJSONObject; const AWrapperAttr: string = ''): TJSONObject;
+    function Merge(const AJObj1, AJObj2: TJSONObject; const AWrapperAttr: string = ''): TJSONObject;
   end;
 
 implementation
@@ -50,7 +64,7 @@ begin
   Result := AttributeExists(AJObj, AAttributeName, LJValue);
 end;
 
-function TJSONMerger.MergeJAddObj(const AJObj1, AJObj2: TJSONObject;
+function TJSONMerger.Merge(const AJObj1, AJObj2: TJSONObject;
   const AWrapperAttr: string): TJSONObject;
 var
   I: Integer;
