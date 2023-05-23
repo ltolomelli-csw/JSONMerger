@@ -111,7 +111,7 @@ begin
       // se l'attributo non c'è nel risultato, lo aggiungo e passo al successivo
       if not(AttributeExists( LJTmp, LAttrNameToMerge, LJValueResult )) then
       begin
-        LJTmp.AddPair( LAttrNameToMerge, LJPair.JsonValue );
+        LJTmp.AddPair( LAttrNameToMerge, LJPair.JsonValue.Clone as TJSONValue );
         Continue;
       end;
 
@@ -125,7 +125,7 @@ begin
       LJArrToMerge := TJSONArray(LJPair.JsonValue);
       LJArrResult  := TJSONArray(LJValueResult);
       for J := 0 to LJArrToMerge.Count -1 do
-        LJArrResult.AddElement( LJArrToMerge[J] );
+        LJArrResult.AddElement( LJArrToMerge[J].Clone as TJSONValue );
     end;
   finally
     // racchiudo tutto nell'attributo di wrapping
